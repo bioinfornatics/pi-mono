@@ -264,10 +264,10 @@ const renderApp = () => {
 						children: icon(History, "sm"),
 						onClick: () => {
 							SessionListDialog.open(
-								async (sessionId) => {
+								async (sessionId: string) => {
 									await loadSession(sessionId);
 								},
-								(deletedSessionId) => {
+								(deletedSessionId: string) => {
 									// Only reload if the current session was deleted
 									if (deletedSessionId === currentSessionId) {
 										newSession();

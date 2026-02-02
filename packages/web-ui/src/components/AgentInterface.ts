@@ -294,13 +294,18 @@ export class AgentInterface extends LitElement {
 		const totals = state.messages
 			.filter((m) => m.role === "assistant")
 			.reduce(
-				(acc, msg: any) => {
-					const usage = msg.usage;
+				(acc: Usage, msg) => {
+					const usage = (msg as { usage?: Usage }).usage;
 					if (usage) {
 						acc.input += usage.input;
 						acc.output += usage.output;
 						acc.cacheRead += usage.cacheRead;
 						acc.cacheWrite += usage.cacheWrite;
+						acc.totalTokens += usage.totalTokens;
+						acc.cost.input += usage.cost.input;
+						acc.cost.output += usage.cost.output;
+						acc.cost.cacheRead += usage.cost.cacheRead;
+						acc.cost.cacheWrite += usage.cost.cacheWrite;
 						acc.cost.total += usage.cost.total;
 					}
 					return acc;
@@ -314,7 +319,6 @@ export class AgentInterface extends LitElement {
 					cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0, total: 0 },
 				} satisfies Usage,
 			);
-
 		const hasTotals = totals.input || totals.output || totals.cacheRead || totals.cacheWrite;
 		const totalsText = hasTotals ? formatUsage(totals) : "";
 
