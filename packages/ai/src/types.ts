@@ -1,3 +1,4 @@
+import type { TokenCredential } from "@azure/core-auth";
 import type { AssistantMessageEventStream } from "./utils/event-stream.js";
 
 export type { AssistantMessageEventStream } from "./utils/event-stream.js";
@@ -6,6 +7,7 @@ export type KnownApi =
 	| "openai-completions"
 	| "openai-responses"
 	| "azure-openai-responses"
+	| "azure-foundry"
 	| "openai-codex-responses"
 	| "anthropic-messages"
 	| "bedrock-converse-stream"
@@ -290,4 +292,18 @@ export interface Model<TApi extends Api> {
 		: TApi extends "openai-responses"
 			? OpenAIResponsesCompat
 			: never;
+}
+
+export interface AzureFoundryResponsesOptions extends StreamOptions {
+	/** Azure AI Foundry project endpoint (services.ai.azure.com/api/projects/<project>) */
+	endpoint: string;
+	/** OpenAI API version for project endpoint OpenAI-compatible route (default: 2024-10-21) */
+	apiVersion?: string;
+	/** Optional TokenCredential override */
+	credential?: TokenCredential;
+	/** Explicit deployment name override (model id is NOT necessarily deployment name) */
+	deploymentName?: string;
+	/** Mirror Responses options used in other providers */
+	reasoningEffort?: ThinkingLevel;
+	reasoningSummary?: "auto" | "detailed" | "concise" | null;
 }

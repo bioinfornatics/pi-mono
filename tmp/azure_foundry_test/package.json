@@ -1,0 +1,14 @@
+{
+  "name": "azure-foundry-test",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node src/main.js",
+    "debug:cli-token": "node src/debug-cli-token.js"
+  },
+  "dependencies": {
+    "@mariozechner/pi-ai": "file:../../packages/ai",
+    "dotenv": "^16.4.5",
+    "@azure/identity": "^4.13.0"
+  }
+}
